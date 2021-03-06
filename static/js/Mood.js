@@ -328,6 +328,8 @@ function buddies_toggle() {
   }
 }
 var flag_toggle1 = false;
+var source = "";
+var destination = "";
 function schedule_toggle() {
   clearMap();
   var info1;
@@ -337,6 +339,8 @@ function schedule_toggle() {
       "Enter the source and destination seperated by a '-'.\nFor example: Mumbai-Goa."
     );
     info1 = info1.split("-");
+    source = info1[0];
+    destination = info1[1];
     document.getElementById("add_schedule").style.display = "block";
     flag_toggle1 = true;
     var set_data = firebase
@@ -349,7 +353,7 @@ function schedule_toggle() {
       dict = snap.val();
       console.log(dict);
       document.getElementById("scheduling").innerHTML = "";
-      if (Object.keys(dict).length == 1) {
+      if (Object.keys(dict).length <= 1) {
         clearMap();
 
         document.getElementById("scheduling").innerHTML = `No Scheduled Trips `;
@@ -375,7 +379,15 @@ function schedule_toggle() {
               dict[Object.keys(dict)[i]] +
               `</a>
                 <br>
-                <button>
+                <button onclick='schedule_trip("` +
+              Object.keys(dict)[i] +
+              `","` +
+              dict[Object.keys(dict)[i]] +
+              `","` +
+              info1[0] +
+              `","` +
+              info1[1] +
+              `")'>
                 <b> 
               SCHEDULE</b> 
               </button>
@@ -397,19 +409,15 @@ function schedule_toggle() {
       var match_rate = parseFloat(
         (dict2["Success"] / (dict2["Success"] + dict2["Failure"])) * 100
       ).toFixed(2);
-      document.getElementById("scheduling1").innerHTML =
-        `<b>Meetup Probablity: ` + match_rate + `%</b>`;
+      if (match_rate >= 0)
+        document.getElementById("scheduling1").innerHTML =
+          `<b>Meetup Probablity: ` + match_rate + `%</b>`;
+      else
+        document.getElementById(
+          "scheduling1"
+        ).innerHTML = `<b>Meetup Probablity:NA</b>`;
     });
   } else {
-    // firebase
-    //   .database()
-    //   .ref("Schedule")
-    //   .child(String(city))
-    //   .child("WB012345")
-    //   .set(null);
-    // document.getElementById(
-    //   "scheduling"
-    // ).innerHTML = `Toggle to schedule a trip`;
     clearMap();
     document.getElementById("add_schedule").style.display = "none";
     document.getElementById(
@@ -451,7 +459,54 @@ function schedule_toggle() {
     });
   }
 }
+function schedule_trip(date_trip, count_trip, source, destination) {
+  var set_data_trips = firebase
+    .database()
+    .ref("Schedule")
+    .child("Cars")
+    .child("WB012345")
+    .child(date_trip)
+    .set(source + "-" + destination);
+  var set_data_trips1 = firebase
+    .database()
+    .ref("Schedule")
+    .child(source)
+    .child(destination)
+    .child("Dates")
+    .child(date_trip)
+    .set(parseInt(count_trip) + 1);
 
+  document.getElementById("checkbox1").checked = false;
+  schedule_toggle();
+}
+function self_scheduler() {
+  var date_journey = prompt(
+    "Enter the date of journey in the format DD Month YYYY"
+  );
+  var set_data_trips1 = firebase
+    .database()
+    .ref("Schedule")
+    .child(source)
+    .child(destination)
+    .child("Dates")
+    .child("Dummy")
+    .set("");
+  var set_data_trips1 = firebase
+    .database()
+    .ref("Schedule")
+    .child(source)
+    .child(destination)
+    .child("Success")
+    .set("");
+  var set_data_trips1 = firebase
+    .database()
+    .ref("Schedule")
+    .child(source)
+    .child(destination)
+    .child("Failure")
+    .set("");
+  schedule_trip(date_journey, 0, source, destination);
+}
 function souvenirs() {
   clearMap();
   if (
