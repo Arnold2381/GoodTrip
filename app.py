@@ -252,7 +252,7 @@ def souvenir():
 
     query = "whatshot "+city + " best things to buy"
 
-    for j in search(query, tld="co.in", num=10, stop=2, pause=2):
+    for j in search(query):
         url.append(j)
 
     http = httplib2.Http()

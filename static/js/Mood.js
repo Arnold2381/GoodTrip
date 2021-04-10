@@ -491,20 +491,20 @@ function self_scheduler() {
     .child("Dates")
     .child("Dummy")
     .set("");
-  var set_data_trips1 = firebase
-    .database()
-    .ref("Schedule")
-    .child(source)
-    .child(destination)
-    .child("Success")
-    .set("");
-  var set_data_trips1 = firebase
-    .database()
-    .ref("Schedule")
-    .child(source)
-    .child(destination)
-    .child("Failure")
-    .set("");
+  // var set_data_trips1 = firebase
+  //   .database()
+  //   .ref("Schedule")
+  //   .child(source)
+  //   .child(destination)
+  //   .child("Success")
+  //   .set("");
+  // var set_data_trips1 = firebase
+  //   .database()
+  //   .ref("Schedule")
+  //   .child(source)
+  //   .child(destination)
+  //   .child("Failure")
+  //   .set("");
   schedule_trip(date_journey, 0, source, destination);
 }
 function souvenirs() {

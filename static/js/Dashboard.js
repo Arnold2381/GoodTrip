@@ -44,7 +44,7 @@ function data(flag) {
       .child(String(destination))
       .child(String(full_date))
       .child("Distance")
-      .set("12 km");
+      .set("590 kms");
   }
 
   document.getElementById("dest").style.color = "transparent";
