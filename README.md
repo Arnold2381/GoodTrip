@@ -1,4 +1,4 @@
-# Garlic-Bread
+# Good Trip
 Objective: To provide a smooth and easy travel experience for road trips and also provide an option to interact with strangers having the same zeal to explore and travel. It is an interactive dashboard that acts as a travel assistant with many interesting and useful features, as listed below:
 
 1. A music recommendation feature that plays the song based on your mood, current location and current weather.
